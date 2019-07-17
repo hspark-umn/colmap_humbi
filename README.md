@@ -1,94 +1,37 @@
-COLMAP
+COLMAP_HUMBI
 ======
 
 About
 -----
 
-COLMAP is a general-purpose Structure-from-Motion (SfM) and Multi-View Stereo
-(MVS) pipeline with a graphical and command-line interface. It offers a wide
-range of features for reconstruction of ordered and unordered image collections.
-The software is licensed under the new BSD license. If you use this project for
-your research, please cite:
-
-    @inproceedings{schoenberger2016sfm,
-        author={Sch\"{o}nberger, Johannes Lutz and Frahm, Jan-Michael},
-        title={Structure-from-Motion Revisited},
-        booktitle={Conference on Computer Vision and Pattern Recognition (CVPR)},
-        year={2016},
-    }
-
-    @inproceedings{schoenberger2016mvs,
-        author={Sch\"{o}nberger, Johannes Lutz and Zheng, Enliang and Pollefeys, Marc and Frahm, Jan-Michael},
-        title={Pixelwise View Selection for Unstructured Multi-View Stereo},
-        booktitle={European Conference on Computer Vision (ECCV)},
-        year={2016},
-    }
-
-If you use the image retrieval / vocabulary tree engine, please also cite:
-
-    @inproceedings{schoenberger2016vote,
-        author={Sch\"{o}nberger, Johannes Lutz and Price, True and Sattler, Torsten and Frahm, Jan-Michael and Pollefeys, Marc},
-        title={A Vote-and-Verify Strategy for Fast Spatial Verification in Image Retrieval},
-        booktitle={Asian Conference on Computer Vision (ACCV)},
-        year={2016},
-    }
-
-The latest source code is available at https://github.com/colmap/colmap. COLMAP
-builds on top of existing works and when using specific algorithms within
-COLMAP, please also cite the original authors, as specified in the source code.
-
+This project is designed for dense reconstruction specific to HUMBI dataset. It is mostly identical to COLMAP except for stereo_patch_match where we leverage human segmentation to reduce the computational cost. 
 
 Download
 --------
 
-Executables for Windows and Mac and other resources can be downloaded from
-https://demuc.de/colmap/. Executables for Linux/Unix/BSD are available at
-https://repology.org/metapackage/colmap/versions. To build COLMAP from source,
+To build COLMAP from source,
 please see https://colmap.github.io/install.html.
 
-Getting Started
----------------
+Place humbi_scripts/* to ~/bin/ and add ~/bin to environment (https://stackoverflow.com/questions/13428910/how-to-set-the-environmental-variable-ld-library-path-in-linux) 
 
-1. Download the pre-built binaries from https://demuc.de/colmap/ or build the
-   library manually as described in the documentation.
-2. Download one of the provided datasets at https://demuc.de/colmap/datasets/
-   or use your own images.
-3. Use the **automatic reconstruction** to easily build models
-   with a single click or command.
-4. Watch the short introductory video at
-   https://www.youtube.com/watch?v=P-EC0DzeVEU or read the tutorial
-   in the documentation at https://colmap.github.io/ for more details.
+Instruction
+--------
 
+Consider a data folder DATA = Humbi/subject_87/.
 
-Documentation
--------------
+The script and code run dense stereo matching to produce a 3D model. Given the calibrated cameras in DATA/calibration, you will run the following script (for 00000001 time instant):
+cd DATA/body
+run_colmap_dense.sh 00000001 
 
-The documentation is available at https://colmap.github.io/.
+To run a full batch,
+run_dense_recon.sh
 
+Full resolution (1920x1080, ~10 min per frame) : run_colmap_dense.sh and run_dense_recon.sh 
+Half resolution (960x540, ~3 min per frame) : run_colmap_dense1.sh and run_dense_recon1.sh 
 
-Support
--------
-
-Please, use the COLMAP Google Group at
-https://groups.google.com/forum/#!forum/colmap (colmap@googlegroups.com) for
-questions and the GitHub issue tracker at https://github.com/colmap/colmap for
-bug reports, feature requests/additions, etc.
-
-
-Acknowledgments
----------------
-
-The library was written by Johannes L. Schönberger (https://demuc.de/). Funding
-was provided by his PhD advisors Jan-Michael Frahm (http://frahm.web.unc.edu/)
-and Marc Pollefeys (https://www.inf.ethz.ch/personal/marc.pollefeys/).
-
-
-Contribution
-------------
-
-Contributions (bug reports, bug fixes, improvements, etc.) are very welcome and
-should be submitted in the form of new issues and/or pull requests on GitHub.
-
+Output:
+00000001/mvs/fused.ply
+or 00000001/mvs/fused1.ply
 
 License
 -------
